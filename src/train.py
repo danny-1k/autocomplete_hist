@@ -10,11 +10,10 @@ import matplotlib.pyplot as plt
 
 from tqdm import tqdm
 
-train = DataLoader(AutocompleteData(train=True))
-test = DataLoader(AutocompleteData(train=False))
+train = DataLoader(AutocompleteData(train=True),batch_size=32)
+test = DataLoader(AutocompleteData(train=False),batch_size=32)
 
-vocab = pickle.load(open('../data/vocab.pkl'))
-
+vocab = pickle.load(open('../data/vocab.pkl','rb'))
 net = Net(len(vocab))
 
 lossfn = nn.CrossEntropyLoss()
@@ -30,7 +29,7 @@ for epoch in tqdm(range(30)):
     
     for x,y in train:
         pred = net(x.float())
-        loss = lossfn(x,y)
+        loss = lossfn(pred,y)
         batch_train_loss.append(loss.item())
         loss.backward()
         optimizer.step()
@@ -41,7 +40,7 @@ for epoch in tqdm(range(30)):
     with torch.no_grad():
         for x,y in test:
             pred = net(x.float())
-            loss = lossfn(x,y)
+            loss = lossfn(pred,y)
             batch_test_loss.append(loss.item())
 
     train_loss_over_time.append(sum(batch_train_loss)/len(batch_train_loss))
