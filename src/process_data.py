@@ -1,6 +1,7 @@
 import json
 import pickle
 import argparse
+import random
 
 class Proc:
     def __init__(self,freq_thresh,past_count):
@@ -64,6 +65,11 @@ class Proc:
                     Y.append(y)
 
         self.save_vocab()
+        data = zip(X,Y)
+        random.shuffle(data)
+
+        X,Y = zip(*data)
+        
         pickle.dump(X,open('../data/X.pkl','wb'))
         pickle.dump(Y,open('../data/Y.pkl','wb'))
 
