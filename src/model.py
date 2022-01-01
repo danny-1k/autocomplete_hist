@@ -5,14 +5,16 @@ class Net(nn.Module):
     def __init__(self,input_size,hidden_size=128,num_layers=1,drop=0):
         super().__init__()
         self.lstm = nn.LSTM(input_size=input_size,
-                    hidden_size=hidden_size,num_layers=num_layers,dropout=drop if num_layers>1 else 0)
+                    hidden_size=hidden_size,num_layers=num_layers,
+                    dropout=drop if num_layers>1 else 0,
+                    batch_first=True)
         self.drop = nn.Dropout(drop)
         self.fc = nn.Linear(hidden_size,input_size)
 
 
     def forward(self,x):
         x,_ = self.lstm(x)
-        x = self.drop(x)
+        x = self.drop(x[:,-1,])
         x = self.fc(x)
         return x
 
