@@ -4,12 +4,14 @@ import torch.nn as nn
 class Net:
     def __init__(self,input_size,hidden_size=128,num_layers=1,drop=0):
         self.lstm = nn.LSTM(input_size=input_size,
-                    hidden_size=hidden_size,num_layers=num_layers,dropout=drop)
+                    hidden_size=hidden_size,num_layers=num_layers,dropout=drop if num_layers>1 else 0)
+        self.drop = nn.Dropout(drop)
         self.fc = nn.Linear(hidden_size,input_size)
 
 
     def forward(self,x):
         x,_ = self.lstm(x)
+        x = self.drop(x)
         x = self.fc(x)
         return x
 
