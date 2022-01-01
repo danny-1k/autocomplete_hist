@@ -3,7 +3,7 @@ import pickle
 import argparse
 
 class Proc:
-    def __init__(self,freq_thresh=5,past_count=3):
+    def __init__(self,freq_thresh,past_count):
         self.json = json.load(open('../data/data.json')) 
         self.vocab = ['UNK']
         self.word_count = {}
@@ -12,11 +12,15 @@ class Proc:
 
     def remove_punctuation(self):
         for idx in self.json:
-            self.json[idx] = ''.join([ c for c in self.json[idx] if c.isalnum() or c==' '])
+            if self.json[idx]['title'] == 'Search' and not(self.json[idx]['value'].startswith('http')):
+                self.json[idx] = ''.join([ c for c in self.json[idx]['value'] if c.isalnum() or c==' '])
 
     def to_lower(self):
         for idx in self.json:
-            self.json[idx] = self.json[idx].lower()
+            if type(self.json[idx]) == str:
+                self.json[idx] = self.json[idx].lower()
+            else:
+                self.json[idx] = self.json[idx]['value'].lower()
     
     def add_word(self,word):
         if self.word_count.get(word) == None:
@@ -34,17 +38,23 @@ class Proc:
         pickle.dump(word_idx,open('../data/word_idx.pkl','wb'))
         pickle.dump(idx_word,open('../data/idx_word.pkl','wb'))
 
+
+    def build_vocab_freq(self):
+        for idx in self.json:
+            words = self.json[idx].split()
+            [self.add_word(w) for w in words]
+
     def save_data(self):
 
         self.remove_punctuation()
         self.to_lower()
+        self.build_vocab_freq()
 
         X = []
         Y = []
 
         for idx in self.json:
             words = self.json[idx].split()
-            [self.add_word(w) for w in words]
             words = ['UNK' for word in words if word not in self.vocab]
             if len(words) > self.past_count:
                 for n in range(len(words)-self.past_count):
