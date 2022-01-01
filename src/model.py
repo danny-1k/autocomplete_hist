@@ -12,14 +12,14 @@ class Net(nn.Module):
         self.fc = nn.Linear(hidden_size,input_size)
 
 
-    def forward(self,x):
-        x,_ = self.lstm(x)
+    def forward(self,x,hidden=None):
+        x,hidden = self.lstm(x)
         x = self.drop(x[:,-1,])
         x = self.fc(x)
-        return x
+        return x,hidden
 
     def save_model(self,f):
         torch.save(self.state_dict(),f)
 
     def load_model(self,f):
-        self.load_state_dict(torch.load(f),map_location='cpu')
+        self.load_state_dict(torch.load(f,map_location='cpu'))
