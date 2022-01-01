@@ -32,8 +32,8 @@ class Proc:
                 self.vocab.append(word)
 
     def save_vocab(self):
-        word_idx = {i:v for i,v in enumerate(self.vocab)}
-        idx_word = {v:i for i,v in enumerate(self.vocab)}
+        word_idx = {v:i for i,v in enumerate(self.vocab)}
+        idx_word = {i:v for i,v in enumerate(self.vocab)}
 
         pickle.dump(self.vocab,open('../data/vocab.pkl','wb'))
         pickle.dump(word_idx,open('../data/word_idx.pkl','wb'))
@@ -65,11 +65,10 @@ class Proc:
                     Y.append(y)
 
         self.save_vocab()
-        data = zip(X,Y)
+        data = list(zip(X,Y))
         random.shuffle(data)
-
         X,Y = zip(*data)
-        
+
         pickle.dump(X,open('../data/X.pkl','wb'))
         pickle.dump(Y,open('../data/Y.pkl','wb'))
 
