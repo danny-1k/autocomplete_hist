@@ -1,11 +1,18 @@
 import json
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 activity = open('data/MyActivity.html',mode='r',encoding='utf-8').read()
-soup = BeautifulSoup(activity,'html.parser')
+print('read file')
+soup = BeautifulSoup(activity,'lxml')
+data = {}
 
-print(soup)
 
-# soup.
+for idx,entry in tqdm(enumerate(soup.find('div',class_='mdl-grid').find_all('div',class_='mdl-grid'))):
+    # print(entry)
+    data[idx] = {
+        'title':entry.p.get_text(),
+        'value':entry.a.get_text(),
+        }
 
-# print(activity)
+json.dump(data,open('data/data.json','w'))
