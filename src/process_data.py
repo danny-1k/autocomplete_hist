@@ -55,7 +55,7 @@ class Proc:
 
         for idx in self.json:
             words = self.json[idx].split()
-            words = ['UNK' for word in words if word not in self.vocab]
+            words = [word if word in self.vocab else 'UNK' for word in words]
             if len(words) > self.past_count:
                 for n in range(len(words)-self.past_count):
                     x = words[n:self.past_count+n]
