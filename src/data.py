@@ -1,12 +1,18 @@
+import random
 import pickle
 import torch
 from torch.utils.data import Dataset
+
 
 class AutocompleteData(Dataset):
     def __init__(self,train=True):
 
         self.X = pickle.load(open('../data/X.pkl','rb'))
         self.Y = pickle.load(open('../data/Y.pkl','rb'))
+
+        data = list(zip(self.X,self.Y))
+        random.shuffle(data)
+        self.X,self.Y = zip(*data)
 
         pct = int(.8*len(self.Y))
 
