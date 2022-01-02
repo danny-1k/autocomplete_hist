@@ -95,8 +95,8 @@ class Proc:
                     Y.append(y)
 
                 
-                pickle.dump(X,open('../data/cbowX.pkl','wb'))
-                pickle.dump(Y,open('../data/cbowY.pkl','wb'))
+        pickle.dump(X,open('../data/cbowX.pkl','wb'))
+        pickle.dump(Y,open('../data/cbowY.pkl','wb'))
 
 
 parser = argparse.ArgumentParser()
