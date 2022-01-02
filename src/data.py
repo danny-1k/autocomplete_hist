@@ -62,6 +62,9 @@ class CBOWData(Dataset):
     def __getitem__(self, index):
         x = self.X[index]
         y = self.Y[index]
-        x = [torch.eye(len(self.vocab))[i] for i in x]
+        x = [torch.eye(len(self.vocab))[self.word_to_idx[i]] for i in x]
         y = self.word_to_idx[y]
         return x,y
+
+    def __len__(self):
+        return len(self.Y)
