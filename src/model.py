@@ -8,13 +8,17 @@ class CBOW(nn.Module):
         self.fc2 = nn.Linear(hidden_size,input_size)
 
     def forward(self,x):
-        #window,target,window
-        #x of shape (window+window,bs,input_size)
-        x = sum([*x]) #(bs,input_size)
+        x = sum([*x]).float() #(bs,input_size)
         x = self.fc1(x)
         x = self.fc2(x)
 
         return x
+
+    def save_model(self):
+        torch.save(self.state_dict(),'checkpoints/cbow_model.pt')
+
+    def load_model(self,f):
+        self.load_state_dict(torch.load('checkpoints/cbow_model.pt',map_location='cpu'))
 
 
 class Net(nn.Module):
@@ -34,8 +38,8 @@ class Net(nn.Module):
         x = self.fc(x)
         return x,hidden
 
-    def save_model(self,f):
-        torch.save(self.state_dict(),f)
+    def save_model(self):
+        torch.save(self.state_dict(),'checkpoints/classifier_model.pt')
 
     def load_model(self,f):
-        self.load_state_dict(torch.load(f,map_location='cpu'))
+        self.load_state_dict(torch.load('checkpoints/cbow_model.pt',map_location='cpu'))
