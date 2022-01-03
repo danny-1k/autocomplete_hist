@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model import Net
+from model import Net,CBOW
 from data import AutocompleteData
 from torch.utils.data import DataLoader
 
@@ -14,7 +14,13 @@ train = DataLoader(AutocompleteData(train=True),batch_size=32,shuffle=True)
 test = DataLoader(AutocompleteData(train=False),batch_size=32,shuffle=True)
 
 vocab = pickle.load(open('../data/vocab.pkl','rb'))
-net = Net(len(vocab),hidden_size=128,drop=0,num_layers=1)
+
+cbow_model = CBOW(len(vocab),128)
+cbow_model.load_model()
+
+embedding = cbow_model.fc1.weight
+
+net = Net(len(vocab),hidden_size=128,drop=0,num_layers=1,embedding=embedding)
 
 lossfn = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(net.parameters(),lr=3e-3)
