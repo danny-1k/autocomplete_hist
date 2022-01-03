@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='app.css')}}">
+    <script src="{{url_for('static',filename='app.js')}}"></script>
+</head>
+<body>
+
+    <div id="content">
+        <div id="logo">
+            Noodle
+        </div>
+        <input id="input" type="search" autocomplete="off" spellcheck="false" placeholder="Search Noodle or not type a URL">
+        <div class="suggestions">
+        </div>
+    </div>
+    
+</body>
+</html>
