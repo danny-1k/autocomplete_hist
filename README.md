@@ -11,3 +11,8 @@ Extremely simple(and maybe useless) LSTM model trained on google search history 
 6. Train cbow model (for embeddings) `python train_cbow.py`
 7. Train autocomplete model `python train.py`
 8. Run web app `python app.py`
+
+
+## Demo
+
+<video src="noodle_demo_one_word.mp4" autoplay="true" loop="true" width="100%">
