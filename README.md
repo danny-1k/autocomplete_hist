@@ -15,4 +15,4 @@ Extremely simple(and maybe useless) LSTM model trained on google search history 
 
 ## Demo
 
-noodle_demo_one_word.mp4
+[noodle_demo_one_word.mp4](https://github.com/danny-1k/autocomplete_hist/blob/2105318e92a9930c7b2011f8dc2d421df9f85f7a/noodle_demo_one_word.mp4)
